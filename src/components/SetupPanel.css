@@ -25,6 +25,12 @@
   flex-wrap: wrap;
 }
 
+@media (max-width: 480px) {
+  .setup-inputs {
+    flex-direction: column;
+  }
+}
+
 .player-input-row {
   display: flex;
   gap: 0.5rem;
