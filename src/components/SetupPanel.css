@@ -50,6 +50,12 @@
 .court-input-row {
   display: flex;
   align-items: center;
+  gap: 0.5rem;
+}
+
+.court-error {
+  color: var(--color-danger);
+  font-size: 0.8rem;
 }
 
 .court-input-row label {

@@ -22,6 +22,19 @@ export function SetupPanel({
   onReset,
 }: SetupPanelProps) {
   const [nameInput, setNameInput] = useState("");
+  const [courtInput, setCourtInput] = useState(String(courts));
+  const [courtError, setCourtError] = useState("");
+
+  function handleCourtChange(value: string) {
+    setCourtInput(value);
+    const n = Number(value);
+    if (value === "" || !/^\d+$/.test(value) || n < 1) {
+      setCourtError("Number of courts available. E.g 2");
+    } else {
+      setCourtError("");
+      onSetCourts(n);
+    }
+  }
 
   function handleAdd() {
     const trimmed = nameInput.trim();
@@ -67,15 +80,13 @@ export function SetupPanel({
             <label>
               Courts:
               <input
-                type="number"
-                min={1}
-                max={20}
-                value={courts}
-                onChange={(e) =>
-                  onSetCourts(Math.max(1, parseInt(e.target.value) || 1))
-                }
+                type="text"
+                inputMode="numeric"
+                value={courtInput}
+                onChange={(e) => handleCourtChange(e.target.value)}
               />
             </label>
+            {courtError && <span className="court-error">{courtError}</span>}
           </div>
         </div>
       )}
