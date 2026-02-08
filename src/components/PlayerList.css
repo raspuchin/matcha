@@ -1,0 +1,42 @@
+.player-list {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+}
+
+.player-list h2 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.1rem;
+  color: var(--color-text);
+}
+
+.player-list-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.player-list-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.7rem;
+  background: var(--color-background);
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+}
+
+.player-list-item.sitting-out {
+  background: var(--color-sit-out);
+}
+
+.player-name {
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.sit-out-count {
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+}

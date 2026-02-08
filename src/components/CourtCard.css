@@ -1,0 +1,61 @@
+.court-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  min-width: 180px;
+  flex: 1;
+}
+
+.court-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.court-number {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-text);
+}
+
+.court-format {
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.court-format.singles {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.court-format.doubles {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.court-matchup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.team {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-text);
+  text-align: center;
+}
+
+.vs {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+}

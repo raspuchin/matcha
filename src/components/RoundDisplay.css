@@ -1,0 +1,37 @@
+.round-display {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+}
+
+.round-display.empty {
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.round-display.empty p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.round-display h2 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.1rem;
+  color: var(--color-text);
+}
+
+.courts-grid {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.sitting-out {
+  margin-top: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--color-sit-out);
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+  color: #92400e;
+}
