@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import type { SessionState } from "./types";
 import {
   generateRound,
@@ -10,6 +10,7 @@ import { GenerateButton } from "./components/GenerateButton";
 import { RoundDisplay } from "./components/RoundDisplay";
 import { PlayerList } from "./components/PlayerList";
 import { RoundHistory } from "./components/RoundHistory";
+import { ResultsView } from "./components/ResultsView";
 import "./App.css";
 
 type Action =
@@ -17,6 +18,7 @@ type Action =
   | { type: "REMOVE_PLAYER"; id: string }
   | { type: "SET_COURTS"; count: number }
   | { type: "GENERATE_ROUND" }
+  | { type: "RECORD_WINNER"; roundId: number; courtId: number; winner: "teamA" | "teamB" }
   | { type: "RESET_SESSION" };
 
 const initialState: SessionState = {
@@ -57,6 +59,23 @@ function sessionReducer(state: SessionState, action: Action): SessionState {
       };
     }
 
+    case "RECORD_WINNER":
+      return {
+        ...state,
+        rounds: state.rounds.map((round) =>
+          round.id === action.roundId
+            ? {
+                ...round,
+                matches: round.matches.map((match) =>
+                  match.court === action.courtId
+                    ? { ...match, winner: action.winner }
+                    : match
+                ),
+              }
+            : round
+        ),
+      };
+
     case "RESET_SESSION":
       return initialState;
 
@@ -67,6 +86,7 @@ function sessionReducer(state: SessionState, action: Action): SessionState {
 
 function App() {
   const [state, dispatch] = useReducer(sessionReducer, initialState);
+  const [showResults, setShowResults] = useState(false);
 
   const isLocked = state.rounds.length > 0;
   const canGenerate = state.players.length >= 2 && state.courts >= 1;
@@ -91,12 +111,29 @@ function App() {
           onReset={() => dispatch({ type: "RESET_SESSION" })}
         />
 
-        <GenerateButton
-          disabled={!canGenerate}
-          onGenerate={() => dispatch({ type: "GENERATE_ROUND" })}
-        />
+        <div className="action-buttons">
+          <GenerateButton
+            disabled={!canGenerate}
+            onGenerate={() => dispatch({ type: "GENERATE_ROUND" })}
+          />
+          {state.rounds.length > 0 && (
+            <button
+              className="view-results-btn"
+              onClick={() => setShowResults(true)}
+            >
+              View Results
+            </button>
+          )}
+        </div>
 
-        <RoundDisplay round={currentRound} />
+        <RoundDisplay
+          round={currentRound}
+          onRecordWinner={(courtId, winner) => {
+            if (currentRound) {
+              dispatch({ type: "RECORD_WINNER", roundId: currentRound.id, courtId, winner });
+            }
+          }}
+        />
 
         <PlayerList
           players={state.players}
@@ -106,6 +143,14 @@ function App() {
 
         <RoundHistory rounds={state.rounds} />
       </main>
+
+      {showResults && (
+        <ResultsView
+          rounds={state.rounds}
+          players={state.players}
+          onClose={() => setShowResults(false)}
+        />
+      )}
     </div>
   );
 }

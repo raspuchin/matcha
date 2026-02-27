@@ -71,3 +71,27 @@
 .btn-danger:hover {
   background: #dc2626;
 }
+
+.action-buttons {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.view-results-btn {
+  flex: 0 0 auto;
+  padding: 0.75rem 1.25rem;
+  background: #16a34a;
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.view-results-btn:hover {
+  background: #15803d;
+}

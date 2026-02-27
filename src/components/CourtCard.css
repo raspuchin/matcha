@@ -59,3 +59,53 @@
   font-weight: 600;
   text-transform: uppercase;
 }
+
+.team.winner {
+  color: #16a34a;
+  font-weight: 700;
+}
+
+.team.loser {
+  color: var(--color-text-muted);
+}
+
+.winner-badge {
+  margin-top: 0.6rem;
+  padding: 0.25rem 0.6rem;
+  background: #dcfce7;
+  color: #16a34a;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.winner-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+}
+
+.winner-btn {
+  width: 100%;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 0.8rem;
+  font-weight: 500;
+  font-family: var(--font);
+  cursor: pointer;
+  background: var(--color-background);
+  color: var(--color-text);
+  transition: background 0.15s, border-color 0.15s;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.winner-btn:hover {
+  background: #dcfce7;
+  border-color: #16a34a;
+  color: #16a34a;
+}

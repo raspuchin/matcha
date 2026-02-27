@@ -4,9 +4,10 @@ import "./RoundDisplay.css";
 
 interface RoundDisplayProps {
   round: Round | null;
+  onRecordWinner: (courtId: number, winner: "teamA" | "teamB") => void;
 }
 
-export function RoundDisplay({ round }: RoundDisplayProps) {
+export function RoundDisplay({ round, onRecordWinner }: RoundDisplayProps) {
   if (!round) {
     return (
       <div className="round-display empty">
@@ -20,7 +21,11 @@ export function RoundDisplay({ round }: RoundDisplayProps) {
       <h2>Round {round.id}</h2>
       <div className="courts-grid">
         {round.matches.map((match) => (
-          <CourtCard key={match.court} match={match} />
+          <CourtCard
+            key={match.court}
+            match={match}
+            onWinner={(winner) => onRecordWinner(match.court, winner)}
+          />
         ))}
       </div>
       {round.sittingOut.length > 0 && (

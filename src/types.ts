@@ -8,6 +8,7 @@ export interface Match {
   format: "singles" | "doubles";
   teamA: Player[];
   teamB: Player[];
+  winner?: "teamA" | "teamB";
 }
 
 export interface Round {
