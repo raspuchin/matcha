@@ -15,12 +15,12 @@ function bestConfiguration(
     const remainingPlayers = playerCount - 4 * d;
     const s = Math.min(remainingCourts, Math.floor(remainingPlayers / 2));
     const playing = 4 * d + 2 * s;
+    const courtsUsed = d + s;
+    const bestCourtsUsed = best.doubles + best.singles;
 
-    if (playing > best.playing) {
+    if (playing > best.playing || (playing === best.playing && courtsUsed > bestCourtsUsed)) {
       best = { singles: s, doubles: d, playing };
     }
-
-    if (playing >= playerCount) break;
   }
 
   return { singles: best.singles, doubles: best.doubles };
