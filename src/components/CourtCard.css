@@ -69,6 +69,10 @@
   color: var(--color-text-muted);
 }
 
+.team.draw {
+  color: #b45309;
+}
+
 .winner-badge {
   margin-top: 0.6rem;
   padding: 0.25rem 0.6rem;
@@ -78,6 +82,11 @@
   font-size: 0.78rem;
   font-weight: 600;
   text-align: center;
+}
+
+.winner-badge.draw {
+  background: #fef3c7;
+  color: #b45309;
 }
 
 .winner-buttons {
@@ -108,4 +117,16 @@
   background: #dcfce7;
   border-color: #16a34a;
   color: #16a34a;
+}
+
+.winner-btn-draw {
+  background: var(--color-background);
+  color: #b45309;
+  border-color: #d97706;
+}
+
+.winner-btn-draw:hover {
+  background: #fef3c7;
+  border-color: #b45309;
+  color: #b45309;
 }

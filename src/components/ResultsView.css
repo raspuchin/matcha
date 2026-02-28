@@ -143,6 +143,10 @@
   color: var(--color-danger);
 }
 
+.stat-cell.draws {
+  color: #b45309;
+}
+
 .stat-cell.ratio {
   color: var(--color-text);
 }
@@ -163,6 +167,16 @@
 
 .team-lost {
   color: var(--color-text-muted);
+}
+
+.team-draw {
+  color: #b45309;
+  font-weight: 600;
+}
+
+.draw-result {
+  color: #b45309;
+  font-weight: 600;
 }
 
 .winner-cell {

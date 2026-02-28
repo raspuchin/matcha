@@ -18,7 +18,7 @@ type Action =
   | { type: "REMOVE_PLAYER"; id: string }
   | { type: "SET_COURTS"; count: number }
   | { type: "GENERATE_ROUND" }
-  | { type: "RECORD_WINNER"; roundId: number; courtId: number; winner: "teamA" | "teamB" }
+  | { type: "RECORD_WINNER"; roundId: number; courtId: number; winner: "teamA" | "teamB" | "draw" }
   | { type: "RESET_SESSION" };
 
 const initialState: SessionState = {

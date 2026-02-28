@@ -6,6 +6,7 @@ interface PlayerStat {
   player: Player;
   wins: number;
   losses: number;
+  draws: number;
   ratio: string;
 }
 
@@ -20,12 +21,14 @@ function computeStats(players: Player[], rounds: Round[]): PlayerStat[] {
     .map((player) => {
       let wins = 0;
       let losses = 0;
+      let draws = 0;
       rounds.forEach((round) => {
         round.matches.forEach((match) => {
           if (!match.winner) return;
           const onA = match.teamA.some((p) => p.id === player.id);
           const onB = match.teamB.some((p) => p.id === player.id);
-          if (onA && match.winner === "teamA") wins++;
+          if (match.winner === "draw" && (onA || onB)) draws++;
+          else if (onA && match.winner === "teamA") wins++;
           else if (onB && match.winner === "teamB") wins++;
           else if (onA && match.winner === "teamB") losses++;
           else if (onB && match.winner === "teamA") losses++;
@@ -37,15 +40,15 @@ function computeStats(players: Player[], rounds: Round[]): PlayerStat[] {
             ? "∞"
             : "-"
           : (wins / losses).toFixed(2);
-      return { player, wins, losses, ratio };
+      return { player, wins, losses, draws, ratio };
     })
     .sort((a, b) => b.wins - a.wins || a.losses - b.losses);
 }
 
 function exportCSV(_players: Player[], rounds: Round[], stats: PlayerStat[]) {
-  let csv = "Player,Wins,Losses,W/L Ratio\n";
+  let csv = "Player,Wins,Losses,Draws,W/L Ratio\n";
   stats.forEach((s) => {
-    csv += `${s.player.name},${s.wins},${s.losses},${s.ratio}\n`;
+    csv += `${s.player.name},${s.wins},${s.losses},${s.draws},${s.ratio}\n`;
   });
 
   csv += "\nMatch History\n";
@@ -53,7 +56,9 @@ function exportCSV(_players: Player[], rounds: Round[], stats: PlayerStat[]) {
   rounds.forEach((round) => {
     round.matches.forEach((match) => {
       const winner =
-        match.winner === "teamA"
+        match.winner === "draw"
+          ? "Draw"
+          : match.winner === "teamA"
           ? match.teamA.map((p) => p.name).join(" & ")
           : match.winner === "teamB"
           ? match.teamB.map((p) => p.name).join(" & ")
@@ -87,8 +92,8 @@ function exportPNG(players: Player[], rounds: Round[], stats: PlayerStat[]) {
   const sectionGap = 20;
 
   // Stats table columns
-  const sCols = ["Player", "Wins", "Losses", "W/L Ratio"];
-  const sWidths = [180, 70, 70, 100];
+  const sCols = ["Player", "Wins", "Losses", "Draws", "W/L Ratio"];
+  const sWidths = [160, 60, 60, 60, 80];
   const sTableW = sWidths.reduce((a, b) => a + b, 0);
 
   // Match history columns
@@ -206,6 +211,7 @@ function exportPNG(players: Player[], rounds: Round[], stats: PlayerStat[]) {
     s.player.name,
     String(s.wins),
     String(s.losses),
+    String(s.draws),
     s.ratio,
   ]);
   y = drawTable(sCols, sWidths, statsRows, y);
@@ -219,7 +225,9 @@ function exportPNG(players: Player[], rounds: Round[], stats: PlayerStat[]) {
 
   const matchRows = allMatches.map((m) => {
     const winner =
-      m.winner === "teamA"
+      m.winner === "draw"
+        ? "Draw"
+        : m.winner === "teamA"
         ? m.teamA.map((p) => p.name).join(" & ")
         : m.winner === "teamB"
         ? m.teamB.map((p) => p.name).join(" & ")
@@ -291,6 +299,7 @@ export function ResultsView({ rounds, players, onClose }: ResultsViewProps) {
                   <th>Player</th>
                   <th>W</th>
                   <th>L</th>
+                  <th>D</th>
                   <th>W/L</th>
                 </tr>
               </thead>
@@ -300,6 +309,7 @@ export function ResultsView({ rounds, players, onClose }: ResultsViewProps) {
                     <td>{s.player.name}</td>
                     <td className="stat-cell wins">{s.wins}</td>
                     <td className="stat-cell losses">{s.losses}</td>
+                    <td className="stat-cell draws">{s.draws}</td>
                     <td className="stat-cell ratio">{s.ratio}</td>
                   </tr>
                 ))}
@@ -322,8 +332,10 @@ export function ResultsView({ rounds, players, onClose }: ResultsViewProps) {
               </thead>
               <tbody>
                 {allMatches.map((m, i) => {
-                  const winnerName =
-                    m.winner === "teamA"
+                  const winnerDisplay =
+                    m.winner === "draw"
+                      ? <span className="draw-result">Draw</span>
+                      : m.winner === "teamA"
                       ? m.teamA.map((p) => p.name).join(" & ")
                       : m.winner === "teamB"
                       ? m.teamB.map((p) => p.name).join(" & ")
@@ -337,14 +349,14 @@ export function ResultsView({ rounds, players, onClose }: ResultsViewProps) {
                           {m.format}
                         </span>
                       </td>
-                      <td className={m.winner === "teamA" ? "team-won" : m.winner === "teamB" ? "team-lost" : ""}>
+                      <td className={m.winner === "teamA" ? "team-won" : m.winner === "teamB" ? "team-lost" : m.winner === "draw" ? "team-draw" : ""}>
                         {m.teamA.map((p) => p.name).join(" & ")}
                       </td>
-                      <td className={m.winner === "teamB" ? "team-won" : m.winner === "teamA" ? "team-lost" : ""}>
+                      <td className={m.winner === "teamB" ? "team-won" : m.winner === "teamA" ? "team-lost" : m.winner === "draw" ? "team-draw" : ""}>
                         {m.teamB.map((p) => p.name).join(" & ")}
                       </td>
                       <td className="winner-cell">
-                        {winnerName ?? <span className="no-result">—</span>}
+                        {winnerDisplay ?? <span className="no-result">—</span>}
                       </td>
                     </tr>
                   );

@@ -4,7 +4,7 @@ import "./RoundDisplay.css";
 
 interface RoundDisplayProps {
   round: Round | null;
-  onRecordWinner: (courtId: number, winner: "teamA" | "teamB") => void;
+  onRecordWinner: (courtId: number, winner: "teamA" | "teamB" | "draw") => void;
 }
 
 export function RoundDisplay({ round, onRecordWinner }: RoundDisplayProps) {
