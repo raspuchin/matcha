@@ -54,7 +54,7 @@ function exportCSV(_players: Player[], rounds: Round[], stats: PlayerStat[]) {
   csv += "\nMatch History\n";
   csv += "Round,Court,Format,Team A,Team B,Winner\n";
   rounds.forEach((round) => {
-    round.matches.forEach((match) => {
+    round.matches.filter((m) => m.winner).forEach((match) => {
       const winner =
         match.winner === "draw"
           ? "Draw"
@@ -104,9 +104,9 @@ function exportPNG(players: Player[], rounds: Round[], stats: PlayerStat[]) {
   const tableW = Math.max(sTableW, mTableW);
   const canvasW = tableW + padding * 2;
 
-  const allMatches = rounds.flatMap((r) =>
-    r.matches.map((m) => ({ ...m, roundId: r.id }))
-  );
+  const allMatches = rounds
+    .flatMap((r) => r.matches.map((m) => ({ ...m, roundId: r.id })))
+    .filter((m) => m.winner);
 
   const canvasH =
     padding +
@@ -258,9 +258,9 @@ export function ResultsView({ rounds, players, onClose }: ResultsViewProps) {
   const contentRef = useRef<HTMLDivElement>(null);
   const stats = computeStats(players, rounds);
 
-  const allMatches = rounds.flatMap((r) =>
-    r.matches.map((m) => ({ ...m, roundId: r.id }))
-  );
+  const allMatches = rounds
+    .flatMap((r) => r.matches.map((m) => ({ ...m, roundId: r.id })))
+    .filter((m) => m.winner);
 
   return (
     <div className="results-overlay" onClick={onClose}>
