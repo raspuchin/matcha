@@ -22,18 +22,17 @@ export function SetupPanel({
   onReset,
 }: SetupPanelProps) {
   const [nameInput, setNameInput] = useState("");
-  const [courtInput, setCourtInput] = useState(String(courts));
-  const [courtError, setCourtError] = useState("");
 
   function handleCourtChange(value: string) {
-    setCourtInput(value);
-    const n = Number(value);
-    if (value === "" || !/^\d+$/.test(value) || n < 1) {
-      setCourtError("Number of courts available. E.g 2");
-    } else {
-      setCourtError("");
+    const n = parseInt(value, 10);
+    if (!isNaN(n) && n >= 1) {
       onSetCourts(n);
     }
+  }
+
+  function adjustCourts(delta: number) {
+    const next = courts + delta;
+    if (next >= 1) onSetCourts(next);
   }
 
   function handleAdd() {
@@ -77,16 +76,15 @@ export function SetupPanel({
             </button>
           </div>
           <div className="court-input-row">
-            <label>
-              Courts:
-              <input
-                type="text"
-                inputMode="numeric"
-                value={courtInput}
-                onChange={(e) => handleCourtChange(e.target.value)}
-              />
-            </label>
-            {courtError && <span className="court-error">{courtError}</span>}
+            <label>Courts:</label>
+            <button className="court-stepper" onClick={() => adjustCourts(-1)} disabled={courts <= 1}>−</button>
+            <input
+              type="number"
+              min="1"
+              value={courts}
+              onChange={(e) => handleCourtChange(e.target.value)}
+            />
+            <button className="court-stepper" onClick={() => adjustCourts(1)}>+</button>
           </div>
         </div>
       )}

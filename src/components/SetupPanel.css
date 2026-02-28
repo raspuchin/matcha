@@ -59,34 +59,58 @@
   gap: 0.5rem;
 }
 
-.court-error {
-  color: var(--color-danger);
-  font-size: 0.8rem;
-}
-
 .court-input-row label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
   font-size: 0.9rem;
   color: var(--color-text);
   white-space: nowrap;
 }
 
 .court-input-row input {
-  width: 3.5rem;
+  width: 3rem;
   padding: 0.5rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
   font-size: 0.9rem;
   text-align: center;
   font-family: var(--font);
+  appearance: textfield;
+}
+
+.court-input-row input::-webkit-outer-spin-button,
+.court-input-row input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
 }
 
 .court-input-row input:focus {
   outline: none;
   border-color: var(--color-primary);
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+.court-stepper {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: var(--color-text);
+  line-height: 1;
+  padding: 0;
+}
+
+.court-stepper:hover:not(:disabled) {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.court-stepper:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .setup-summary {
